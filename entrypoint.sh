@@ -2,10 +2,11 @@
 
 #Get date
 now=$(date -I)
+ref=$(echo $GITHUB_REF | grep -o -E "\d+\.\d+\.*\d*")
 
 # Get Github release data via GET
 releaseBody=$(curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY/releases" \
---header "Authorization: token $GITHUB_TOKEN" | jq ".[] | select(.tag_name==\"$GITHUB_REF\") | .body")
+--header "Authorization: token $GITHUB_TOKEN" | jq ".[] | select(.tag_name==\"$ref\") | .body")
 
 # Get project id
 projectId=$(curl -l -X GET "$JIRA_BASE_URL/rest/api/2/project/" \
@@ -14,23 +15,10 @@ projectId=$(curl -l -X GET "$JIRA_BASE_URL/rest/api/2/project/" \
 
 # Create version
 
-echo "Version payload: {
-           \"description\": \"$releaseBody\",
-           \"name\": \"$GITHUB_REF\",
-           \"archived\": false,
-           \"released\": true,
-           \"releaseDate\": \"$now\",
-           \"projectId\": \"$projectId\"
-       }"
+echo "Version payload:"
+echo "{\"description\":$releaseBody,\"name\":\"$ref\",\"archived\":false,\"released\":true,\"releaseDate\":\"$now\",\"projectId\":$projectId}"
 
 curl -l -X POST "$JIRA_BASE_URL/rest/api/2/version" \
   -H "Content-Type: application/json" \
   -H "Authorization: Basic $JIRA_TOKEN" \
-  --data-raw "{
-      \"description\": \"$releaseBody\",
-      \"name\": \"$GITHUB_REF\",
-      \"archived\": false,
-      \"released\": true,
-      \"releaseDate\": \"$now\",
-      \"projectId\": \"$projectId\"
-  }"
+  --data-raw "{\"description\":$releaseBody,\"name\":\"$ref\",\"archived\":false,\"released\":true,\"releaseDate\":\"$now\",\"projectId\":$projectId}"
