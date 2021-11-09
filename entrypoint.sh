@@ -13,6 +13,16 @@ projectId=$(curl -l -X GET "$JIRA_BASE_URL/rest/api/2/project/" \
   | jq ".[] | select(.key==\"$JIRA_PROJECT_KEY\") | .id")
 
 # Create version
+
+echo "Version payload: {
+           \"description\": \"$releaseBody\",
+           \"name\": \"$GITHUB_REF\",
+           \"archived\": false,
+           \"released\": true,
+           \"releaseDate\": \"$now\",
+           \"projectId\": \"$projectId\"
+       }"
+
 curl -l -X POST "$JIRA_BASE_URL/rest/api/2/version" \
   -H "Content-Type: application/json" \
   -H "Authorization: Basic $JIRA_TOKEN" \
