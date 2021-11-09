@@ -1,0 +1,6 @@
+# action.yml
+name: 'JIRA Release'
+description: 'This action automatises the creation of a release in JIRA when a github release is created'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
