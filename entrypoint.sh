@@ -6,7 +6,7 @@ ref=$(echo $GITHUB_REF | grep -o -E "\d+\.\d+\.*\d*")
 
 # Get Github release data via GET
 releaseBody=$(curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY/releases" \
---header "Authorization: token $GITHUB_TOKEN" | jq ".[] | select(.tag_name==\"$ref\") | .body")
+--header "Authorization: token $GITHUB_TOKEN" | jq ".[] | select(.tag_name==\"$ref\") | .name")
 
 # Get project id
 projectId=$(curl -l -X GET "$JIRA_BASE_URL/rest/api/2/project/" \
