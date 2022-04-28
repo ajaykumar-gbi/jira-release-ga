@@ -22,4 +22,4 @@ echo "{\"description\":$releaseBody,\"name\":\"$ref\",\"archived\":false,\"relea
 curl -l -X POST "$JIRA_BASE_URL/rest/api/2/version" \
   -H "Content-Type: application/json" \
   -H "Authorization: Basic $JIRA_TOKEN" \
-  --data-raw "{\"description\":$releaseBody,\"name\":\"$ref\",\"archived\":false,\"released\":true,\"releaseDate\":\"$now\",\"projectId\":$projectId}"
+  --data-raw "{\"description\":\"test\",\"name\":\"$ref\",\"archived\":false,\"released\":true,\"releaseDate\":\"$now\",\"projectId\":$projectId}"
