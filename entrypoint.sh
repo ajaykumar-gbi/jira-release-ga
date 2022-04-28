@@ -5,7 +5,7 @@ now=$(date -I)
 ref=$(echo $GITHUB_REF | grep -o -E "\d+\.\d+\.*\d*")
 echo $ref
 # Get Github release data via GET
-releaseBody=$(curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY/releases" \
+releaseBody=$(curl --location --request GET "https://api.github.com/repos/ajaykumar-gbi/test/releases" \
 --header "Authorization: token $GITHUB_TOKEN" | jq ".[] | select(.tag_name==\"$ref\") | .name")
 echo $releaseBody
 
