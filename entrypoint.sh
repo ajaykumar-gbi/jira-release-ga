@@ -10,8 +10,8 @@ echo $GITHUB_REPOSITORY_OWNER
 echo "github owner name"
 echo $GITHUB_REPOSITORY
 echo "repo name"
-curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY/releases/latest" --header "Authorization: token $GITHUB_TOKEN" | jq ".html_url"
-releaseBody=$(curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY/releases/latest" --header "Authorization: token $GITHUB_TOKEN" | jq ".html_url")
+curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY/releases/latest" --header "Authorization: token $GITHUB_TOKEN" | jq ".tag_name"
+releaseBody=$(curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY/releases/latest" --header "Authorization: token $GITHUB_TOKEN" | jq ".tag_name")
 echo $releaseBody
 
 # Get project id
