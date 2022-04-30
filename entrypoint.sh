@@ -6,8 +6,8 @@ now=$(date -I)
 ref=$(echo $GITHUB_REF | grep -o -E "\d+\.\d+\.*\d*")
 echo $ref
 # Get Github release data via GET
-curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY_OWNER/$GITHUB_REPOSITORY/releases/latest" --header "Authorization: token $GITHUB_TOKEN" | jq ".[] | select(.tag_name==\"$ref\") | .body"
-releaseBody=$(curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY_OWNER/$GITHUB_REPOSITORY/releases/latest" --header "Authorization: token $GITHUB_TOKEN" | jq ".[] | select(.tag_name==\"$ref\") | .body")
+curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY_OWNER/$GITHUB_REPOSITORY/releases/latest" --header "Authorization: token $GITHUB_TOKEN" | jq ".body"
+releaseBody=$(curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY_OWNER/$GITHUB_REPOSITORY/releases/latest" --header "Authorization: token $GITHUB_TOKEN" | jq ".body")
 echo $releaseBody
 
 # Get project id
@@ -23,4 +23,4 @@ echo "{\"description\":$releaseBody,\"name\":\"$ref\",\"archived\":false,\"relea
 curl -l -X POST "$JIRA_BASE_URL/rest/api/2/version" \
   -H "Content-Type: application/json" \
   -H "Authorization: Basic $JIRA_TOKEN" \
-  --data-raw "{\"description\":\"test\",\"name\":\"$ref\",\"archived\":false,\"released\":true,\"releaseDate\":\"$now\",\"projectId\":$projectId}"
+  --data-raw "{\"description\":\"$releaseBody\",\"name\":\"$ref\",\"archived\":false,\"released\":true,\"releaseDate\":\"$now\",\"projectId\":$projectId}"
