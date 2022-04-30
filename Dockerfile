@@ -1,5 +1,5 @@
 # Container image that runs your code
-FROM alpine:3.10
+FROM ubuntu:latest
 
 RUN apk update && apk add curl jq
 
