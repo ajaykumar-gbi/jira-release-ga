@@ -7,7 +7,7 @@ echo $TAG
 ref=$(echo $GITHUB_REF  | awk -F / '{print $(NF)}')
 echo $ref
 
-curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY/releases" --header "Authorization: token $GITHUB_TOKEN" | jq ".[] | select(.tag_name==\"$TAG\") | .name")
+curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY/releases" --header "Authorization: token $GITHUB_TOKEN" | jq ".[] | select(.tag_name==\"$TAG\") | .name"
 releaseBody=$(curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY/releases" --header "Authorization: token $GITHUB_TOKEN" | jq ".[] | select(.tag_name==\"$TAG\") | .name")
 echo "release body:"
 echo $releaseBody
