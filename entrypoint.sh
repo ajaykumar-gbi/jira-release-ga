@@ -20,9 +20,9 @@ echo $projectId
 # Create version
 
 echo "Version payload:"
-echo "{\"description\":$releaseBody,\"name\":\"$ref\",\"archived\":false,\"released\":true,\"releaseDate\":\"$now\",\"projectId\":$projectId}"
+echo "{\"description\":$releaseBody,\"name\":\"$TAG\",\"archived\":false,\"released\":true,\"releaseDate\":\"$now\",\"projectId\":$projectId}"
 
 curl -l -X POST "$JIRA_BASE_URL/rest/api/2/version" \
   -H "Content-Type: application/json" \
   -H "Authorization: Basic $JIRA_TOKEN" \
-  --data-raw "{\"description\":\"$releaseBody\",\"name\":\"$TAG\",\"archived\":false,\"released\":true,\"releaseDate\":\"$now\",\"projectId\":\"$projectId\"}"
+  --data-raw "{\"description\":$releaseBody,\"name\":\"$TAG\",\"archived\":false,\"released\":true,\"releaseDate\":\"$now\",\"projectId\":$projectId}"
