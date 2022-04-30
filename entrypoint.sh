@@ -3,7 +3,7 @@
 #Get date
 now=$(date -I)
 echo $GITHUB_REF
-ref=$(echo $GITHUB_REF | grep -o -E "\d+\.\d+\.*\d*")
+ref=$(echo $GITHUB_REF  | awk -F / '{print $(NF)}')
 echo $ref
 # Get Github release data via GET
 echo $GITHUB_REPOSITORY_OWNER 
