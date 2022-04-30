@@ -2,11 +2,12 @@
 
 #Get date
 now=$(date -I)
-ref=$(curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY_OWNER/$GITHUB_REPOSITORY/releases/latest" | jq ".tag_name" )
+#ref=$(curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY_OWNER/$GITHUB_REPOSITORY/releases/latest" | jq ".tag_name" )
+ref=$(echo $GITHUB_REF | grep -o -E "\d+\.\d+\.*\d*")
 echo $ref
 # Get Github release data via GET
-curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY_OWNER/$GITHUB_REPOSITORY/releases/latest" --header "Authorization: token $GITHUB_TOKEN" | jq ".name"
-releaseBody=$(curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY_OWNER/$GITHUB_REPOSITORY/releases/latest" --header "Authorization: token $GITHUB_TOKEN" | jq ".name")
+curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY_OWNER/$GITHUB_REPOSITORY/releases/latest" --header "Authorization: token $GITHUB_TOKEN" | jq ".[] | select(.tag_name==\"$ref\") | .body"
+releaseBody=$(curl --location --request GET "https://api.github.com/repos/$GITHUB_REPOSITORY_OWNER/$GITHUB_REPOSITORY/releases/latest" --header "Authorization: token $GITHUB_TOKEN" | jq ".[] | select(.tag_name==\"$ref\") | .body")
 echo $releaseBody
 
 # Get project id
